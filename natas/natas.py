@@ -18,7 +18,9 @@ def save_credentials (key, val):
     credentials = get_credentials()
     credentials[key] = val
     f = open(CRED_FILE, 'w')
-    for k in credentials:
+    keys = credentials.keys()
+    keys.sort() 
+    for k in keys:
         f.write('%s\t%s\n' % (k,credentials[k]))
 
 
