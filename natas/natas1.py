@@ -3,10 +3,10 @@ import natas
 import base64
 import re
 
-URL='http://natas0.natas.labs.overthewire.org'
+URL='http://natas1.natas.labs.overthewire.org'
 
 def main():
-    usr = 'natas0'
+    usr = 'natas1'
     password = natas.get_credential(usr)
     b64 = base64.b64encode('%s:%s' % (usr,password))
     
@@ -17,7 +17,7 @@ def main():
             }
     )
 
-    regex = r"<!--The password for natas1 is (\w*?) -->"
+    regex = r"<!--The password for natas2 is (\w*?) -->"
     matches = re.finditer(regex,response.content, re.MULTILINE)
     for matchNum, match in enumerate(matches, start=1):
         found_password = match.group(1)
@@ -25,7 +25,7 @@ def main():
 
     print('found password: %s' % found_password)
     print('adding to credentials file....')
-    natas.save_credentials('natas1',found_password)
+    natas.save_credentials('natas2',found_password)
     print('done')
 
 #    print('DEBUG: credentials - %s' % natas.get_credentials())
